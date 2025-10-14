@@ -1,0 +1,21 @@
+sudo systemctl daemon-reload
+sudo systemctl enable bus-manager-loader.service
+sudo systemctl start bus-manager-loader.service
+sudo systemctl restart bus-manager-loader.service
+sudo systemctl status bus-manager-loader.service
+
+
+sudo nano /etc/systemd/system/bus-manager-loader.service
+
+[Unit]
+Description=Aplication bus to upload transactions and counters
+After=network.target
+
+[Service]
+User=admin
+WorkingDirectory=/home/admin/bus-manager-loader/
+ExecStart=/home/admin/env/bin/python3 /home/admin/bus-manager-loader/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
