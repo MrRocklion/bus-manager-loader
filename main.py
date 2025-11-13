@@ -111,18 +111,14 @@ def process_once():
     transactions = get_transactions()
     print(f"Pasajeros pendientes: {len(counters)}")
     print(f"transacciones pendientes: {len(transactions)}")
-    for p in counters:
-        try:
-            payload = {
-                "special": p["special"],
-                "timestamp": p["datetime"],
-                "bus": int(bus_target),
-                "intenary_id": None
-            }
-            if upload_counters(payload):
+    passengeers = len(counters)
+    payload = {"passengers": passengeers,"register_vehicle": int(bus_target)}
+    if upload_counters(payload):
+        for p in counters:
+            try:
                 update_passenger(p["id"])
-        except Exception as e:
-            print("Error procesando pasajero:", p.get("id"), e)
+            except Exception as e:
+                print("Error procesando pasajero:", p.get("id"), e)
     for t in transactions:
         try:
             dt = datetime.fromisoformat(t["timestamp"])
